@@ -14,6 +14,83 @@ get_assay_matrix <- function(se, data_type) {
   as.matrix(SummarizedExperiment::assay(se, 1))
 }
 
+sanitize_file_name <- function(x) {
+  x <- trimws(as.character(x))
+  x[x == "" | is.na(x)] <- "analysis"
+  x <- gsub("[^A-Za-z0-9._-]+", "_", x)
+  x <- gsub("_+", "_", x)
+  x <- gsub("^_|_$", "", x)
+  x[x == ""] <- "analysis"
+  x
+}
+
+get_analysis_designs <- function(clinical_data, prefix = "analysis_") {
+  clinical_columns <- colnames(clinical_data)
+  analysis_index <- which(startsWith(clinical_columns, prefix))
+
+  if (length(analysis_index) == 0) {
+    stop("No analysis design columns were found. Expected columns like analysis_OXLP.")
+  }
+
+  experiment_group <- sub(
+    paste0("^", prefix),
+    "",
+    clinical_columns[analysis_index]
+  )
+  analysis_base_name <- sanitize_file_name(experiment_group)
+  analysis_name <- analysis_base_name
+
+  duplicated_name <- names(table(analysis_base_name))[table(analysis_base_name) > 1]
+
+  for (name in duplicated_name) {
+    duplicated_index <- which(analysis_base_name == name)
+    analysis_name[duplicated_index] <- paste0(name, "_", seq_along(duplicated_index))
+  }
+
+  data.frame(
+    Column_Index = analysis_index,
+    Column_Name = clinical_columns[analysis_index],
+    Analysis_Base_Name = analysis_base_name,
+    Analysis_Name = analysis_name,
+    Experiment_Group = experiment_group,
+    stringsAsFactors = FALSE
+  )
+}
+
+prepare_design_samples <- function(sample_info, group_column_index, experiment_group) {
+  group_value <- trimws(as.character(sample_info[[group_column_index]]))
+  group_value[is.na(group_value)] <- ""
+
+  keep_sample <- group_value != ""
+  sample_info_used <- sample_info[keep_sample, , drop = FALSE]
+  group_value <- group_value[keep_sample]
+
+  group_names <- unique(group_value)
+  control_group <- setdiff(group_names, experiment_group)
+
+  if (!experiment_group %in% group_names) {
+    stop("Experiment group '", experiment_group, "' was not found in the design column.")
+  }
+
+  if (length(control_group) != 1) {
+    stop(
+      "Exactly one control group is required. Detected groups: ",
+      paste(group_names, collapse = ", ")
+    )
+  }
+
+  group_list <- factor(
+    group_value,
+    levels = c(control_group, experiment_group)
+  )
+
+  list(
+    sample_info = sample_info_used,
+    group_list = group_list,
+    control_group = control_group
+  )
+}
+
 needs_log2_transform <- function(exprSet) {
   q99 <- as.numeric(quantile(exprSet, 0.99, na.rm = TRUE))
   max_value <- max(exprSet, na.rm = TRUE)

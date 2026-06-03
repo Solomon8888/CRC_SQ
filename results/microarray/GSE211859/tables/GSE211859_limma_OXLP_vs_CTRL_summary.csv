@@ -1,2 +1,0 @@
-"Dataset","Data_Type","Contrast","Control_Group","Experiment_Group","Total_Genes_Input","Total_Genes_Analyzed","Up","Down","Not_Significant","P_Value_Column","P_Value_Cutoff","LogFC_Cutoff","Microarray_Log2_Transformed","Microarray_Normalized_Between_Arrays","Microarray_Final_Median_Spread","Microarray_Final_IQR_Spread","NGS_Filtered_Genes"
-"GSE211859","microarray","OXLP_vs_CTRL","CTRL","OXLP",18304,18304,423,590,17291,"adj.P.Val",0.05,1,FALSE,FALSE,0.0946598930000002,0.2366477645,NA
