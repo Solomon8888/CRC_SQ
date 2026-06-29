@@ -1,0 +1,2 @@
+"Input_Type","TF_Analysis_Name","Intersection_Name","Required_Methods","Number_Of_Methods","Intersected_TF_Count","Reported_Top_N","Result_File"
+"DEG","MD_HCT116","CURATED_REGULON_NETWORK_DOROTHEA_TRRUST_COLLECTRI","DoRothEA;TRRUST;CollecTRI","3","173","10","results/ngs/GSE299428/TF_summary/deg/MD_HCT116/intersections/CURATED_REGULON_NETWORK_DOROTHEA_TRRUST_COLLECTRI/candidates/top10_tf_candidates.csv"

@@ -1,0 +1,2 @@
+"Input_Type","TF_Analysis_Name","Intersection_Name","Required_Methods","Number_Of_Methods","Intersected_TF_Count","Reported_Top_N","Result_File"
+"DEG","HD_SW480","ALL_6_METHODS","DoRothEA;ChEA3;VIPER;ENRICHR;TRRUST;CollecTRI","6","166","10","results/ngs/GSE299428/TF_summary/deg/HD_SW480/intersections/ALL_6_METHODS/candidates/top10_tf_candidates.csv"
