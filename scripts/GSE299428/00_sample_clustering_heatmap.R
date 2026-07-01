@@ -97,7 +97,7 @@ LABEL_HEATMAP_GAP_SPACES <- 2
 HEATMAP_COLOR_LOW <- "#0d0dbb7f"   # 深蓝
 HEATMAP_COLOR_MID <- "#FFFFFF"     # 白色
 HEATMAP_COLOR_HIGH <- "#cd0e0e"    # 鲜红
-CORRELATION_COLOR_MIN <- 0.80
+CORRELATION_COLOR_MIN <- 0.70
 CORRELATION_COLOR_MAX <- 1.00
 
 # 图片大小会根据样本数量和样本名长度自动调整；上下限用于避免图片过小或过大。
@@ -638,6 +638,8 @@ draw_sample_clustering_heatmap <- function(sample_group_name, sample_group_value
     Top_Variable_Gene_N = variable_gene_result$top_variable_gene_n,
     Correlation_Method = CORRELATION_METHOD,
     Clustering_Method = CLUSTERING_METHOD,
+    Correlation_Color_Min = CORRELATION_COLOR_MIN,
+    Correlation_Color_Max = CORRELATION_COLOR_MAX,
     Column_Name_Rotation = COLUMN_NAMES_ROT,
     PDF_Width = round(pdf_width, 2),
     PDF_Height = round(pdf_height, 2),
@@ -692,6 +694,7 @@ print(
       "Sample_Group", "Samples",
       "Genes_After_Biotype_Filter", "Genes_After_Removing_Zero_Variance",
       "Genes_Used_For_Clustering", "Correlation_Method", "Clustering_Method",
+      "Correlation_Color_Min", "Correlation_Color_Max",
       "PDF_Width", "PDF_Height"
     )
   ],
